@@ -4,7 +4,7 @@ import {verifyJWT} from "./../middleware/auth.middleware.js";
 
 const route = Router();
 
-route.get("/tasks", verifyJWT, getTasks);
+route.get("/get-tasks", verifyJWT, getTasks);
 
 route.post("/add-task", verifyJWT, addTask);
 

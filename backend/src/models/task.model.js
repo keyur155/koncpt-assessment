@@ -13,14 +13,14 @@ const TaskSchema = new mongoose.Schema({
         required : true, 
         trim: true,
         minlength: 3,
-        maxlength: 20
+        maxlength: 100
     },
     description :{
         type: String,
         required : true,
         trim: true,
         minlength: 20,
-        maxlength: 100
+        maxlength: 1000
     },
     priority:{
         type: String,
@@ -36,11 +36,6 @@ const TaskSchema = new mongoose.Schema({
         type :Date,
         required : true
     },
-    completedAt:{
-        type :Date,
-        required : true
-
-    }
 
 },
     {

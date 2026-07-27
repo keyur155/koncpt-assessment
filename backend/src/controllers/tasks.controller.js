@@ -5,12 +5,13 @@ import asyncHandler from "../utils/asynHandler.js";
 
 
 export const getTasks = asyncHandler(async (req , res) =>{
-    const _id = req.user._id;
+   
+    const _id = req.user._id ;
 
     const {status , priority ,sort ,page =1 , limit = 10} = req.query ;
 
     const query ={
-        user , _id
+        user : _id
     }
 
     if(status){
@@ -37,7 +38,7 @@ export const getTasks = asyncHandler(async (req , res) =>{
     .skip((page - 1) * limit)
     .limit(Number(limit));
 
-    const totalTasks = await Task.countDocuments(filter);
+    const totalTasks = await Task.countDocuments(query);
 
     return res.status(200)
     .json(new ApiResponse(200,"successfully fetched tasks",Tasks) ,
