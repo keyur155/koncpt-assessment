@@ -7,7 +7,7 @@ dotenv.config()
 
 const db_connect = async()=>{
    try {
-     const connection_instace = await mongoose.connect(
+     await mongoose.connect(
         `${process.env.MONGO_URI}`
     );
     app.on('error', (err)=>{

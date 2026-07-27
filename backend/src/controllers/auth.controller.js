@@ -73,11 +73,3 @@ export const signIn = asyncHandler(async(req , res) =>{
 
 });
 
-
-export const forgotPassword = asyncHandler(async(req , res) =>{
-
-});
-
-export const logout = asyncHandler(async(req , res) =>{
-
-});

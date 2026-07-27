@@ -143,7 +143,7 @@ export const deleteTask = asyncHandler(async(req , res) =>{
     const { taskId } = req.params;
     const _id = req.user._id ;
 
-    const deleteTask = await Task.findByIdAndDelete({
+    await Task.findByIdAndDelete({
         _id : taskId,
         user : _id
     });
