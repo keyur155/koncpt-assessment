@@ -4,7 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev" :"nodemon src/server.js",
     "start": "nodemon src/server.js",
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -19,5 +21,8 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.8.0",
     "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "eslint": "^10.8.0"
   }
 }
