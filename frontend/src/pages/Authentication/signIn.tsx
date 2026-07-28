@@ -4,10 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { CheckSquare, Lock, Mail, Eye, EyeOff, ArrowRight } from "lucide-react";
-
+import axios from "axios";
 import { loginSchema, type LoginFormData } from "../../validation/auth.schema";
 import { loginApi } from "../../api/auth.api";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -42,9 +42,14 @@ export default function Login() {
             } else {
                 toast.error(response.message || "Login failed");
             }
-        } catch (error: any) {
-            const msg = error.response?.data?.message || "Invalid credentials or server error";
-            toast.error(msg);
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message ?? "Something went wrong");
+    } else if (error instanceof Error) {
+        toast.error(error.message);
+    } else {
+        toast.error("Something went wrong");
+    }
         } finally {
             setIsLoading(false);
         }

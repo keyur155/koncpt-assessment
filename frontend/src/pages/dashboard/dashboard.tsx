@@ -4,17 +4,14 @@ import toast from "react-hot-toast";
 import {
     Plus,
     Search,
-    LogOut,
     CheckSquare,
-    Flame,
-    User as UserIcon,
     RefreshCw,
     ChevronLeft,
     ChevronRight,
 } from "lucide-react";
 
 import DashboardHeader from '../../components/dashboard/DashboardHeader';
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { getTasksApi, addTaskApi, editTaskApi, deleteTaskApi } from "../../api/task.api";
 import type { Task, TaskStatus } from "../../types/task.types";
 import type { TaskFormData } from "../../validation/task.schema";
@@ -24,6 +21,8 @@ import TaskCard from "../../components/task/TaskCard";
 import TaskModal from "../../components/task/TaskModal";
 import TaskViewModal from "../../components/task/TaskViewModal";
 import DeleteConfirmModal from "../../components/task/DeleteConfirmModal";
+import axios from "axios";
+import type { GetTasksParams } from "../../types/params.type";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -49,11 +48,13 @@ export default function Dashboard() {
     const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+
+
     // Fetch Tasks data
     const fetchTasks = useCallback(async () => {
         setIsLoading(true);
         try {
-            const params: any = {
+            const params: GetTasksParams = {
                 page: currentPage,
                 limit: 9,
                 sort: sortBy,
@@ -75,15 +76,21 @@ export default function Dashboard() {
                     setTotalPages(data.totalPages || 1);
                 }
             }
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || "Failed to load tasks");
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                toast.error(error.response?.data?.message ?? "Something went wrong");
+            } else if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("Something went wrong");
+            }
         } finally {
             setIsLoading(false);
         }
     }, [currentPage, statusFilter, priorityFilter, sortBy]);
 
     useEffect(() => {
-        fetchTasks();
+        void fetchTasks();
     }, [fetchTasks]);
 
     const handleFormSubmit = async (formData: TaskFormData) => {
@@ -108,8 +115,14 @@ export default function Dashboard() {
                     toast.error(response.message || "Failed to create task");
                 }
             }
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || "Error processing request");
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                toast.error(error.response?.data?.message ?? "Something went wrong");
+            } else if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("Something went wrong");
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -129,8 +142,14 @@ export default function Dashboard() {
                 toast.success(`Status updated to ${newStatus}`);
                 fetchTasks();
             }
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || "Failed to update status");
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                toast.error(error.response?.data?.message ?? "Something went wrong");
+            } else if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("Something went wrong");
+            }
         }
     };
 
@@ -146,8 +165,14 @@ export default function Dashboard() {
             } else {
                 toast.error(response.message || "Failed to delete task");
             }
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || "Error deleting task");
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                toast.error(error.response?.data?.message ?? "Something went wrong");
+            } else if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("Something went wrong");
+            }
         } finally {
             setIsSubmitting(false);
         }

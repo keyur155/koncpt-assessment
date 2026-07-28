@@ -15,8 +15,14 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
+
     languageOptions: {
       globals: globals.browser,
     },
+     rules: {
+            // Disable React Compiler rules
+            "react-hooks/set-state-in-effect": "off",
+            "react-hooks/incompatible-library": "off",
+        },
   },
 ])

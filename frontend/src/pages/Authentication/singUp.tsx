@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { CheckSquare, Lock, Mail, User as UserIcon, Eye, EyeOff, ArrowRight } from "lucide-react";
-
+import axios from "axios";
 import { registerSchema, type RegisterFormData } from "../../validation/auth.schema";
 import { registerApi } from "../../api/auth.api";
 
@@ -37,9 +37,14 @@ export default function Register() {
             } else {
                 toast.error(response.message || "Registration failed");
             }
-        } catch (error: any) {
-            const msg = error.response?.data?.message || "Registration failed. Try again.";
-            toast.error(msg);
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message ?? "Something went wrong");
+    } else if (error instanceof Error) {
+        toast.error(error.message);
+    } else {
+        toast.error("Something went wrong");
+    }
         } finally {
             setIsLoading(false);
         }
