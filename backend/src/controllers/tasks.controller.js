@@ -40,12 +40,14 @@ export const getTasks = asyncHandler(async (req , res) =>{
 
     const totalTasks = await Task.countDocuments(query);
 
-    return res.status(200)
-    .json(new ApiResponse(200,"successfully fetched tasks",Tasks) ,
-    {
-            Tasks ,totalTasks ,  currentPage: Number(page),
+    return res.status(200).json(
+        new ApiResponse(200, "successfully fetched tasks", {
+            tasks: Tasks,
+            totalTasks,
+            currentPage: Number(page),
             totalPages: Math.ceil(totalTasks / limit)
-    });
+        })
+    );
 
     
 
@@ -81,7 +83,7 @@ export const addTask = asyncHandler(async(req , res) =>{
 
 
      return res.status(201)
-     .json(new ApiResponse(201,"Successfully Insert Task"))
+     .json(new ApiResponse(201, "Successfully Insert Task", task));
 
 })
 
@@ -134,7 +136,7 @@ export const editTask = asyncHandler(async(req , res) =>{
     await task.save();
 
     return res.status(200)
-    .json(200,"Task Updated Successfully", task);
+    .json(new ApiResponse(200, "Task Updated Successfully", task));
 
 
 })
@@ -143,9 +145,9 @@ export const deleteTask = asyncHandler(async(req , res) =>{
     const { taskId } = req.params;
     const _id = req.user._id ;
 
-    await Task.findByIdAndDelete({
-        _id : taskId,
-        user : _id
+    await Task.findOneAndDelete({
+        _id: taskId,
+        user: _id
     });
 
     return res.status(200)
