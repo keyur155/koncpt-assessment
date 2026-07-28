@@ -153,9 +153,11 @@ PORT=3000
 
 MONGO_URI=your_mongodb_connection_string
 
-JWT_SECRET=your_secret_key
+ACCESS_TOKEN_SECRET=
+ACCESS_TOKEN_EXPIRY=
 
-JWT_EXPIRE=7d
+REFRESH_TOKEN_SECRET=
+REFRESH_TOKEN_EXPIRY=
 ```
 
 Run server
@@ -269,10 +271,10 @@ Runs ESLint.
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
-| GET | `/api/v1/tasks` | Get All Tasks |
-| POST | `/api/v1/tasks` | Create Task |
-| PUT | `/api/v1/tasks/:id` | Update Task |
-| DELETE | `/api/v1/tasks/:id` | Delete Task |
+| GET | `/api/v1/task/get-tasks` | Get All Tasks |
+| POST | `/api/v1/task/add-task` | Create Task |
+| PUT | `/api/v1/task/edit-task/:id` | Update Task |
+| DELETE | `/api/v1/tasks/delete-task/:id` | Delete Task |
 
 ---
 
