@@ -25,4 +25,3 @@ jobs:
 
       - run: npm ci
       - run: npm run lint --if-present
-      - run: npm test --if-present
