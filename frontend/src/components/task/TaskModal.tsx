@@ -185,8 +185,8 @@ export default function TaskModal({ isOpen, onClose, onSubmit, taskToEdit, isLoa
                         {/* Due Date */}
                         <div onClick={(e) => {
       // Finds the input inside this wrapper and triggers the picker
-                                const input = e.currentTarget.querySelector('input[type="date"]');
-                                if (input) input.showPicker();
+                                const input = e.currentTarget.querySelector('input[type="date"]') as HTMLInputElement | null;
+                                input?.showPicker();
                                 }}>
                             <label className="block text-xs font-semibold uppercase tracking-wider text-orange-200/80 mb-2">
                                 Due Date
